@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Моё Голое Приложение на JS</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f9; }
+        .container { max-width: 400px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input { padding: 8px; width: 70%; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 8px 12px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        ul { list-style-type: none; padding: 0; }
+        li { padding: 8px; background: #eee; margin-top: 5px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Список задач (Node.js + Postgres)</h2>
+        <input type="text" id="taskInput" placeholder="Новая задача...">
+        <button onclick="addTask()">Добавить</button>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        const API_URL = 'http://127.0.0.1:8000/tasks';
+
+        async function loadTasks() {
+            try {
+                const res = await fetch(API_URL);
+                const tasks = await res.json();
+                const ul = document.getElementById('taskList');
+                ul.innerHTML = '';
+                tasks.forEach(task => {
+                    const li = document.createElement('li');
+                    li.innerText = task;
+                    ul.appendChild(li);
+                });
+            } catch (err) {
+                console.error("Ошибка загрузки:", err);
+            }
+        }
+
+        async function addTask() {
+            const input = document.getElementById('taskInput');
+            if (!input.value) return;
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title: input.value })
+                });
+                input.value = '';
+                loadTasks();
+            } catch (err) {
+                console.error("Ошибка добавления:", err);
+            }
+        }
+
+        loadTasks();
+    </script>
+</body>
+</html>
+

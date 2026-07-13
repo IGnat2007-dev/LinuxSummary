@@ -1,0 +1,18 @@
+#!/bin/bash 
+
+check_root () {
+	if [ $UID -ne 0 ]; then 
+		return 1
+	fi
+	return 0
+}
+
+check_root 
+
+if [ $? -ne 0 ]; then 
+	echo "ERROR: this comand must start with sudo!"
+	exit 1 
+fi
+
+echo "HELLO admin"
+exit 0

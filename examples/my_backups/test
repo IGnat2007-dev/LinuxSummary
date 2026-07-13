@@ -1,0 +1,10 @@
+#!/bin/bash
+
+DIR="~/direct"
+
+if [ -e $DIR ]; then
+
+echo "directori already exists"
+
+else echo "No such dir- $DIR"
+fi

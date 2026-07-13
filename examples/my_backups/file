@@ -1,0 +1,11 @@
+#!/bin/bash
+
+show_log() {
+local TYPE=$1
+local MSG=$2
+echo ["$TYPE"] --- "$MSG"
+}
+
+show_log "INFO" "Script running successfull"
+show_log "WARNING" "Disc is almost full"
+show_log "ERROR" "Configuration file not founded"
